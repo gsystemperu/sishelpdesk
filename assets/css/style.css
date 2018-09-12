@@ -1,0 +1,62 @@
+body {
+    margin: 0 0;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.ui.image img, .ui.image svg {
+	max-width: 76%;
+	margin: auto;
+	margin-top: 6px;
+	margin-bottom: 9px;
+}
+
+.ui.vertical.menu .item > i.icon {
+	width: 2.48em;
+	float: left;
+    margin: 0 0 0 .8em;
+    text-align: left;
+}
+
+.ui.sidebar .menu a:first-child {
+    display: none;
+}
+.ui.sidebar .menu a {
+    margin-left: 22px;
+}
+.ui.sidebar .menu {
+    border-bottom: 1px solid #3C3D3D;
+}
+.pusher {
+    background: #e7e7e7 !important;
+}
+
+.ui.segment[class*="bottom attached"] {
+    margin-bottom: 0px;
+}
+#app > .ui.attached.segment {
+    border: 0px solid !important;
+}
+
+#container {
+    padding: 15px 20px;
+}
+
+.colprimary {
+    background: #9ED440 !important;
+}
+button.colprimary:hover {
+    background: #8bbd33 !important;
+}
+
+.ui.labeled.icon.button, .ui.labeled.icon.buttons .button {
+	padding-left: 3.19142857em !important;
+	padding-right: 0.8em !important;
+}
+
+.ui.styled.accordion .accordion .content, .ui.styled.accordion .content {
+    padding: 0em 2em 0.8em;
+}
