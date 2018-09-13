@@ -18,18 +18,24 @@ class Registro extends CI_Controller {
     {
         if(isset($this->session->userdata['logged_in'])){
             //Scripts
-                $script['modulejs']="Registro/registrarnuevo.module.js";
+                $styles['modulecss']="registro/registro.css";
+                $scripts['modulejs']="registro_js/registrarnuevo.module.js";
     
                //array asociativo con la llamada al metodo
                //del modelo
                ///$data["listaprincipal"]=$this->incidencias_model->listarprincipal();
 
-               $this->load->view('layouts/header');
-               $this->load->view('registro/tipoincidencia', $script);
+               $this->load->view('layouts/header', $styles);
+               $this->load->view('registro/content_nuevo', $scripts);
                $this->load->view('layouts/footer');
         }else{
            header('Location: '.base_url().'login');                  
         } 
+    }
+
+    public function modalregistrarservicio()
+    {
+        $this->load->view('registro/modal_regservicio');
     }
 
 

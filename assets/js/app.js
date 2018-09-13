@@ -10,11 +10,11 @@ const appModule = {
         })
         .sidebar('hide')
 
-    $('.ui.accordion').accordion()
-    $('.ui.dropdown').dropdown({ allowAdditions: true });
-  }
+    
+  },
 
-
-
+  addLoader : (elem) => {
+    $(elem).prepend()
+  },
 }
 

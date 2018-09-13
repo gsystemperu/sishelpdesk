@@ -7,8 +7,16 @@
     <title>Help Desk</title>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/libs/semantic-2.3/semantic.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css?v=2">
+
+    <?php if (isset($modulecss)) : ?>
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/<?php echo ($modulecss . '?v='. rand(1, 999999) ); ?>">
+    <?php endif;?>
+
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/jquery-3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/semantic-2.3/semantic.min.js"></script>
+    
+
+    <script>const BASE_URL = "<?php echo base_url(); ?>";</script>
 </head>
 <body>
 

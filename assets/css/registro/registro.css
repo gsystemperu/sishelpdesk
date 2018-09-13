@@ -1,0 +1,11 @@
+#modal_nuevoservicio .ui.segment {
+    padding: 0px;
+    border: 0px;
+    box-shadow: unset;
+}
+
+#modal_nuevoservicio.ui.modal .ui.segment {
+    /* height: 400px; */
+    min-height: calc(50vh);
+}
+
