@@ -15,7 +15,20 @@ class Servicio extends CI_Model
         $sql = "SELECT * FROM om_helpdesk.sp_tiposervicio_lista()";
         $resultado = $this->db->query($sql,$param);
         $data['data'] = $resultado->result();
-        return $data;
+        $arrServicios = array();
+        
+        for ($i=0; $i < count($data['data']); $i++) { 
+            $servicio = new stdClass;
+            $servicio->_id = $data['data'][$i]->_id;
+            $servicio->_descrip = $data['data'][$i]->_descrip;
+
+            $dataSubtipo = $this->lista_servicio($data['data'][$i]->_id);
+            $servicio->_subtipos =  $dataSubtipo['data'];
+            array_push($arrServicios, $servicio);
+        }
+        $response['data'] = $arrServicios; 
+
+        return $response;
     }
     function om_fichausuario_autocompletar_visualiza($param){
         $sql = "SELECT * FROM om_helpdesk.om_fichausuario_autocompletar_visualiza(?)";
@@ -72,8 +85,8 @@ class Servicio extends CI_Model
         return $data;
     }
     function hp_datoservicio_insert_update($param){
-        $sql = "SELECT * FROM om_helpdesk.om_actualizar_estado(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $resultado = $this->db->query($sql,$param);
+        $sql = "SELECT * FROM om_helpdesk.om_hd_servicios_insertar_actualizar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $resultado = $this->db->query($sql,$param); // var_dump($param); die();
         $data['data'] = $resultado->result();
         return $data;
     }

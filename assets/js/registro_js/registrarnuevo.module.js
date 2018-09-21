@@ -1,83 +1,364 @@
-
-
-
 $(document).ready(() => {
-
     appModule.init()
-
-    
-
-    console.log('asdfazzZZZZZ')
- 
-     /* saludar()   */
-
     $('#regBtnCrear').click(() => {
         getModalRegistrarNuevo()
     })
+
+    $('#regBtnCrear').click();
 
     $('#regBtnFiltrar').click(() => {
         //UTILS.addLoader('#modal_nuevoservicio')
     })
 
-    $('#mdBtnGuardar').click(() => {
-        //UTILS.removeLoader('#modal_nuevoservicio')
+    $('#mdBtnCancelarIncidencia').click(() => {
+        $('#modal_nuevoservicio').modal('hide')
     })
 
-    
+    $('#mdBtnGuardarIncidencia').click(() => {
+        
+        //UTILS.removeLoader('#modal_nuevoservicio')
+        fn_grabar_incidencia()
+            .then(resp => {
+                UTILS.loading('#mdBtnGuardarIncidencia',false)
+                UTILS.disable(['#mdBtnGuardarIncidencia','#mdBtnCancelarIncidencia'],false)
+                //console.log(resp)
+            }).catch(
+                err => {
+                    swal('Hubo un error con el servidor, revisar consola.')
+                    console.log('========= ERROR ===========')
+                    console.log(err)
+                    UTILS.loading('#mdBtnGuardarIncidencia',false)
+                    UTILS.disable(['#mdBtnGuardarIncidencia','#mdBtnCancelarIncidencia'],false)
+                }
+            )
 
-   // $('#regBtnCrear').click()
+        
+    })
 
-    cargarTipoServicio()
 
-    
+    $('#modal_agregarcliente #mdBtnCancelarModalcliente').click(() => {
+        $('#modal_agregarcliente').modal('hide')
+    })
+
+    $('#modal_agregarcliente #mdBtnGrabarcliente').click(() => {
+        fn_grabarCliente()
+            .then(resp => {
+                let resp_id = parseInt(resp.data[0].id); // Si el id devuelto es mayor a 0, la operación se realizó correctamente
+                if (resp_id >= 0) {
+                    swal('Datos grabados correctamente')
+                    $('#fni_cbx_cliente').dropdown('clear')
+                    $('#modal_agregarcliente').modal('hide')
+                } else {
+                    swal('Hubo un error al grabar los datos')
+                }
+            })
+    })
 
 
 
 })
 
+
+const fn_grabar_incidencia = () => {
+    return new Promise((resolve, reject) => {
+
+        var tservicios = new Array();
+        var boxes = $('#md_acordion_tiposervicio input:checkbox:checked')
+            boxes.each(function () {
+            if(tservicios.length > 0) {
+                tservicios[0] += this.value + '|'
+            }else {
+                tservicios[0] = this.value + '|'
+            }
+        }) 
+        if(tservicios.length == 0) { swal('Error mensaje'); return; }
+
+        UTILS.loading('#mdBtnGuardarIncidencia',true)
+        UTILS.disable(['#mdBtnGuardarIncidencia','#mdBtnCancelarIncidencia'],true)
+        var _url = BASE_URL + "/servicios/asdfasfdafasf"
+        var _data = { cache: Math.random() * 999999,
+            _iidincidencia: $('#form_nuevaincidencia #fni_idregistro').val(),
+            _iidcliente: $('#form_nuevaincidencia #fni_cbx_cliente').val(),
+            _iidtecnico: $('#form_nuevaincidencia #fni_cbx_tecnico').val(),
+            _vperiodo: $('#form_nuevaincidencia #fni_date_fechainicio').val(),
+            _imes: $('#form_nuevaincidencia #fni_date_fechainicio').val(),
+            _flagprocedimientos: '',
+            _flaginterna: '',
+            _fechaini: $('#form_nuevaincidencia #fni_date_fechainicio').val(),
+            _horasalida: $('#form_nuevaincidencia #fni_txt_horasalida').val(),
+            _horallegada: '',
+            _horatermino: $('#form_nuevaincidencia #fni_txt_horatermino').val(),
+            _horaretorno: '',
+            _tiempoatencion: '',
+            _observaciones: $('#form_nuevaincidencia #fni_txt_descripcion').val(),
+            _vestado: 1, // 1 -> REGISTRADO
+            _vusuario: '',
+            _vcadena_servicio: tservicios,
+            _numficha: $('#form_nuevaincidencia #fni_txt_numero').val(),
+        }
+        $.ajaxSetup({ async: false })
+
+        
+
+        $.post(_url, _data,
+            function (resp) {
+                setTimeout(() => {
+                    console.log(parseInt(resp.data[0].tmpiidficha))
+                    resolve(true)
+                }, 3000);
+            })
+            .fail(function (error) {
+                setTimeout(() => {
+                    reject(error)
+                }, 3000);
+            })
+
+    })
+}
+
 const fn_completarmodal_nuevo = () => {
     var _url = BASE_URL + "/servicios/combotiposervicio"
-	var _data = { cache: Math.random() * 999999 }
-	$.ajaxSetup({async:false})
-	$.get(_url, _data,
-		function(resp){
+    var _data = { cache: Math.random() * 999999 }
+    $.ajaxSetup({ async: false })
+    $.get(_url, _data,
+        function (resp) {
             //$('#modal_nuevoservicio').html(resp)
             $('#modal_nuevoservicio').modal('show')
-            
-            if(resp.data.length > 0){
+
+            if (resp.data.length > 0) {
                 for (let i = 0; i < resp.data.length; i++) {
                     const tserv = resp.data[i]
-                    $('#md_acordion_tiposervicio').append('<div class="item"><a class="title"><i class="dropdown icon"></i> '+ tserv._descrip +' </a></div>');
+                    $('#md_acordion_tiposervicio').append('<div class="item"><a class="title"><i class="dropdown icon"></i> ' + tserv._descrip + ' </a></div>');
                 }
             }
 
             setTimeout(() => {
                 UTILS.removeLoader('#modal_nuevoservicio')
-            }, 1000);
+            }, 1);
         }
     )
 }
 
-const cargarTipoServicio = () => {
-    console.log('carnaodbocmbosssx2')
+const cargarTipoServicios = () => {
+    var _url = BASE_URL + "/servicios/combotiposervicio"
+    var _data = { cache: Math.random() * 999999 }
+    $.ajaxSetup({ async: false })
+    $.get(_url, _data,
+        function (resp) {
+            const servs = resp.data
+            var itemsHTML = ''
+            if (servs.length > 0) {
+                var partialItem = ''
+                for (let i = 0; i < servs.length; i++) {
+                    const elm = servs[i];
+                    partialItem = '<div class="item">' +
+                        '<a class="title"><i class="dropdown icon"></i>' + elm._descrip + '</a>';
+
+                    if (elm._subtipos.length > 0) {
+                        var partialSubtipos = '<div class="content">' +
+                            '<div class="ui form">' +
+                            '<div class="grouped fields">';
+                        for (let j = 0; j < elm._subtipos.length; j++) {
+                            const sub = elm._subtipos[j];
+                            partialSubtipos += '<div class="field"><div class="ui checkbox"><input name="small" type="checkbox" value="' + sub._id + '"><label>' + sub._descrip + '</label></div></div>'
+                        }
+                        partialSubtipos += '</div></div></div>'
+                        partialItem += partialSubtipos
+                    }
+
+                    partialItem += '</div>';
+                    itemsHTML += partialItem
+                }
+            }
+
+            $('#modal_nuevoservicio #md_acordion_tiposervicio').html(itemsHTML)
+            //console.log(resp) 
+            //const itemHTML = ''
+
+        }
+    )
 }
 
 const getModalRegistrarNuevo = () => {
+
+    $('.modal.multiplemodal').modal({
+        allowMultiple: true
+    });
+
     UTILS.addLoader('#modal_nuevoservicio')
     $('#modal_nuevoservicio #formmodalregnuevo').html('')
     $('#modal_nuevoservicio').modal('show')
+
     var _url = BASE_URL + "/registro/modalregistrarservicio"
-	var _data = { cache: Math.random() * 999999 }
-	$.ajaxSetup({async:false})
-	$.get(_url, _data,
-		function(resp){
+    var _data = { cache: Math.random() * 999999 }
+    $.ajaxSetup({ async: false })
+    $.get(_url, _data,
+        function (resp) {
 
             setTimeout(() => {
                 $('#modal_nuevoservicio #formmodalregnuevo').html(resp)
-                $('#modal_nuevoservicio .ui.accordion').accordion()
-                $('#modal_nuevoservicio .ui.dropdown').dropdown({ allowAdditions: true });
+                $('#modal_nuevoservicio #md_acordion_tiposervicio').accordion()
+
+                cargarTipoServicios()
+
                 UTILS.removeLoader('#modal_nuevoservicio')
-            }, 2500);  
+
+
+                $('#btn_modal_reg_add_cliente').click(() => {
+                    getModalAgregarcliente()
+                })
+
+
+                try { // Cuando cleave no encuentra el elemento, causa error
+                    /* var cleave = new Cleave('.cleave-date', {
+                        date: true,
+                        datePattern: ['Y', 'm', 'd']
+                    });  */
+                }catch { }
+
+                
+
+                var cbx_cliente = $('#fni_cbx_cliente')
+                var cbx_tecnico = $('#fni_cbx_tecnico')
+                
+                cbx_cliente.dropdown({
+                    clearable: true,
+                    preserveHTML: false,
+                    minCharacters: 3,
+                    apiSettings: {
+                        // this url parses query server side and returns filtered results
+                        action: 'autocomplete cliente',
+                        cache: false
+                    },
+                    fields: {
+                        remoteValues: 'data',
+                        name: 'nombrecompleto',
+                        value: 'idcliente',
+                    },
+                    message: {
+                        noResults: 'No hay resultados según el texto ingresado'
+                    }
+                })
+
+                cbx_tecnico.dropdown({
+                    clearable: true,
+                    preserveHTML: false,
+                    minCharacters: 0,
+                    apiSettings: {
+                        // this url parses query server side and returns filtered results
+                        action: 'autocomplete tecnico',
+                        cache: false
+                    },
+                    fields: {
+                        remoteValues: 'data',
+                        name: '_descrip',
+                        value: '_id',
+                    },
+                    message: {
+                        noResults: 'No hay resultados según el texto ingresado'
+                    }
+                })
+
+            }, 1)
         }
     )
+}
+
+const getModalAgregarcliente = () => {
+    $('#modal_agregarcliente').modal('show')
+
+    var _url = BASE_URL + "/registro/modalagregarcliente"
+    var _data = { cache: Math.random() * 999999 }
+    $.ajaxSetup({ async: false })
+    $.get(_url, _data,
+        function (resp) {
+            $('#modal_agregarcliente #formmodalagregarcliente').html(resp)
+
+            var busq_clientes = $('#buscadorcliente.ui.search')
+            busq_clientes
+                .search({
+                    /* apiSettings: {
+                        //url: '//api.github.com/search/repositories?q={query}',
+                        url: 'http://192.168.2.82:8084/sishelpdesk//clientes/listadoautocompletar?q={query}'
+                    }, */
+
+                    fields: {
+                        results: 'data',
+                        title: 'nombrecompleto'
+                    },
+                    minCharacters: 3,
+                    error: {
+                        noResults: 'No se encontraron resultados',
+                    },
+                    apiSettings: {
+                        action: 'autocomplete cliente',
+
+                    },
+                    onSelect: function (result, response) {
+                        $('#frm_regcliente #txt_idcliente').val(result.idcliente)
+                        $('#frm_regcliente #txt_dni').val(result.dni)
+                        $('#frm_regcliente #txt_nombres').val(result.nombres)
+                        $('#frm_regcliente #txt_apepater').val(result.apepat)
+                        $('#frm_regcliente #txt_apemater').val(result.apemat)
+                        $('#frm_regcliente #txt_email').val(result.email)
+                        $('#frm_regcliente #txt_telefono').val(result.telefono)
+                        $('#frm_regcliente #txt_celular').val(result.celular)
+                    }
+                });
+
+            $('#btn_limpiar_newuser').click(() => {
+                busq_clientes.search("set value", "")
+                busq_clientes.search("query");
+                $('#frm_regcliente #txt_idcliente').val('')
+                $('#frm_regcliente #txt_dni').val('')
+                $('#frm_regcliente #txt_nombres').val('')
+                $('#frm_regcliente #txt_apepater').val('')
+                $('#frm_regcliente #txt_apemater').val('')
+                $('#frm_regcliente #txt_email').val('')
+                $('#frm_regcliente #txt_telefono').val('')
+                $('#frm_regcliente #txt_celular').val('')
+            })
+
+
+        }
+    )
+}
+
+const fn_grabarCliente = () => {
+    return new Promise((resolve, reject) => {
+        let cliente = {
+            'idcliente': $('#frm_regcliente #txt_idcliente').val(),
+            'dni': $('#frm_regcliente #txt_dni').val(),
+            'nombres': $('#frm_regcliente #txt_nombres').val(),
+            'apePaterno': $('#frm_regcliente #txt_apepater').val(),
+            'apeMaterno': $('#frm_regcliente #txt_apemater').val(),
+            'email': $('#frm_regcliente #txt_email').val(),
+            'telefono': $('#frm_regcliente #txt_telefono').val(),
+            'celular': $('#frm_regcliente #txt_celular').val()
+        }
+
+        var _url = BASE_URL + "/clientes/grabarcliente"
+        var _data = {
+            cache: Math.random() * 999999,
+            //idcliente: cliente.idcliente,
+            idcliente: cliente.idcliente,
+            dni: cliente.dni,
+            nombres: cliente.nombres,
+            apepater: cliente.apePaterno,
+            apemater: cliente.apeMaterno,
+            email: cliente.email,
+            telefono: cliente.telefono,
+            celular: cliente.celular,
+            usuario: '',
+        }
+        $.ajaxSetup({ async: false })
+        $.post(_url, _data,
+            function (resp) {
+                resolve(resp)
+            })
+            .fail(function (error) {
+                reject(error)
+            })
+
+    })
 }

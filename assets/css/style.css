@@ -45,12 +45,33 @@ body {
     padding: 15px 20px;
 }
 
-.colprimary {
+
+button.colprimary, .button.colprimary {
     background: #9ED440 !important;
 }
 button.colprimary:hover {
     background: #8bbd33 !important;
 }
+
+.ui.colprimary.segment:not(.inverted) {
+    border-top: 2px solid #9ED440 !important;
+}
+
+.swal-button {
+    color: rgba(0,0,0,.6);
+}
+.swal-button:focus {
+    box-shadow: unset;
+}
+.swal-button.swal-button--confirm {
+    background: #9ED440;
+}
+
+
+.ui.disabled {
+    opacity: .75 !important;
+}
+
 /* 
 .ui.labeled.icon.button, .ui.labeled.icon.buttons .button {
 	padding-left: 3.19142857em !important;

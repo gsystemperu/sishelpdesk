@@ -6,7 +6,8 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.2.35',
+	//'hostname' => '192.168.2.35',
+	'hostname' => '192.168.9.39',
 	'username' => 'postgres',
 	'password' => '64y4.634##',
 	'database' => 'dbhelpdesk',

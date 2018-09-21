@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Help Desk</title>
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/libs/semantic-2.3/semantic.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/libs/semantic-2.4/semantic.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css?v=2">
 
     <?php if (isset($modulecss)) : ?>
@@ -13,7 +13,10 @@
     <?php endif;?>
 
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/jquery-3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/semantic-2.3/semantic.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/semantic-2.4/semantic.min.js"></script>
+
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/libs/cleave-1.4.4/cleave.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
 
     <script>const BASE_URL = "<?php echo base_url(); ?>";</script>

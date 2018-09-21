@@ -38,5 +38,10 @@ class Registro extends CI_Controller {
         $this->load->view('registro/modal_regservicio');
     }
 
+    public function modalagregarcliente()
+    {
+        $this->load->view('registro/modal_agregarcliente');
+    }
+
 
 }

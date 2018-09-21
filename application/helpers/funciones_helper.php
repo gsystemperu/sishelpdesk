@@ -7,12 +7,9 @@ function pintarApostrofe($cadena) {
 // Funcion de JUAN JAIMES
 function esCadenaNulo($objeto) {
     if (!empty($objeto)) {
-        $retorna = $objeto;
-        $retorna = "'" . str_replace("'", "''", $retorna) . "'";
-        $retorna = stripslashes($retorna);
-        return $retorna;
+        return $objeto;
     }
-    return "NULL";
+    return NULL;
 }
 function esCadenaCero($objeto) {
     if (!empty($objeto)) {
@@ -21,23 +18,23 @@ function esCadenaCero($objeto) {
         $retorna = stripslashes($retorna);
         return $retorna;
     }
-    return "0";
+    return 0;
 }
 
 // Funcion de JUAN JAIMES
 function esNumeroNulo($objeto) {
     if (!empty($objeto) && trim($objeto) != "") {
-        return $objeto;
+        return (int) $objeto;
     }
-    return "NULL";
+    return NULL;
 }
 
 // Funcion de JUAN JAIMES
 function esNumeroCero($objeto) {
     if (!empty($objeto) && trim($objeto) != "") {
-        return $objeto;
+        return (int) $objeto;
     }
-    return "0";
+    return 0;
 }
 
 // Funcion de JUAN JAIMES
@@ -48,7 +45,14 @@ function cadena_vacio_a_nulo($objeto) {
         $retorna = stripslashes($retorna);
         return $retorna;
     }
-    return "NULL";
+    return NULL;
+}
+
+function texto_vacio_a_nulo($objeto) {
+    if (!empty($objeto)) {
+            return $objeto;
+    } 
+    return NULL;
 }
 
 // Funcion de JUAN JAIMES
@@ -56,7 +60,7 @@ function numero_vacio_a_nulo($objeto) {
     if (!empty($objeto) && trim($objeto) != "") {
         return $objeto;
     }
-    return "NULL";
+    return NULL;
 }
 
 // Funcion de JUAN JAIMES

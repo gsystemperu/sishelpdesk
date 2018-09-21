@@ -6,7 +6,7 @@
         <div class="ui   segment">
             <p>Crear incidencia</p>
         </div>
-        <div class="ui green  segment">
+        <div class="ui colprimary  segment">
 
             <div class="ui form">
                 <div class="inline fields">
@@ -113,9 +113,9 @@
 
 
 
-    <div id="modal_nuevoservicio" class="ui longer modal">
+    <div id="modal_nuevoservicio" class="ui longer modal multiplemodal">
 
-        <div class="header" style="border-bottom: 1px solid #8bbd33;">Registrar servicio</div>
+        <div class="header" style="border-bottom: 1px solid #8bbd33;"><i class="edit outline icon"></i> Registrar servicio</div>
         <div class="scrolling content">
 
             <div class="ui segment">
@@ -130,7 +130,43 @@
         </div>
 
         <div class="actions">
-            <div id="mdBtnGuardar" class="ui colprimary button">
+            <div id="mdBtnCancelarIncidencia" class="ui button">
+                <i class="times icon"></i>Cancelar 
+            </div>
+            <div id="mdBtnGuardarIncidencia" class="ui colprimary button">
+                Guardar
+                <i class="right chevron icon"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    
+    <div id="modal_agregarcliente" class="ui tiny modal multiplemodal" style="margin-top: auto !important;position: absolute; box-shadow: 1px 3px 30px 14px rgba(0,0,0,.2),1px 3px 15px 2px rgba(0,0,0,.2);">
+
+        <!-- <div class="header" style="border-bottom: 1px solid #8bbd33;"><i class="users icon"></i> Agregar cliente</div> -->
+        <div class="scrolling content">
+
+            <div class="ui segment customsg">
+                <div class="ui active inverted dimmer" style="display:none;">
+                    <div class="ui medium loader"></div>
+                </div>
+
+                <div id="formmodalagregarcliente">
+                ...
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div id="mdBtnCancelarModalcliente" class="ui button">
+                <i class="times icon"></i>Cancelar 
+            </div>
+            <div id="mdBtnGrabarcliente" class="ui colprimary button">
                 Guardar
                 <i class="right chevron icon"></i>
             </div>

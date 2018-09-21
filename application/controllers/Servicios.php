@@ -52,16 +52,18 @@ class Servicios extends CI_Controller {
                 );
         }
     }
+
+
+    /*select * from "om_helpdesk"."om_hd_servicios_insertar_actualizar"
+    (0,4,1,'2018',9,NULL,NULL,'2018-09-10','10:00','10:15:00',NULL,'10:43:00',NULL,'OBSERVACION TEST',2,'AGONZALEZ','1|2|','0007')*/
+
     public function grabardatoservicio()//x
 	{
         if($this->input->method()=='post')
         {
             $param = array(
-                esNumeroCero($this->input->post('_iidinsidencia')),
-                esNumeroCero($this->input->post('_iidusuariohelp')),
-                esNumeroCero($this->input->post('_iidarea')),
-                esNumeroCero($this->input->post('_idsubarea')),
-                esNumeroCero($this->input->post('_ventanilla')),
+                esNumeroCero($this->input->post('_iidincidencia')),
+                esNumeroNulo($this->input->post('_iidcliente')),
                 esNumeroCero($this->input->post('_iidtecnico')),
                 esCadenaNulo($this->input->post('_vperiodo')),
                 esNumeroCero($this->input->post('_imes')),
@@ -78,7 +80,7 @@ class Servicios extends CI_Controller {
                 esCadenaNulo($this->input->post('_vusuario')),
                 esCadenaNulo($this->input->post('_vcadena_servicio')),
                 esCadenaNulo($this->input->post('_numficha'))
-            );
+            ); 
             $data  = json_encode($this->Servicio->hp_datoservicio_insert_update($param));
             $this->output
                 ->set_content_type('application/json')
@@ -269,7 +271,7 @@ class Servicios extends CI_Controller {
         {
             $param = array(
                 esCadenaNulo($this->input->get('tbuscar'))
-            );
+            ); //var_dump($param);die();
             $data  = json_encode($this->Servicio->lista_tecnico($param));
             $this->output
                 ->set_content_type('application/json')

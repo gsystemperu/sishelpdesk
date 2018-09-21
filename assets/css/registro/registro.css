@@ -9,3 +9,26 @@
     min-height: calc(50vh);
 }
 
+.ui.segment.customsg {
+    box-shadow: unset;
+    border: 0px;
+    padding: 0px;
+}
+
+
+#formmodalagregarcliente .ui.form .inline.fields {
+    margin-bottom: 3px;
+}
+
+#formmodalregnuevo .ui.fluid.search.dropdown{
+    width: 100%;
+}
+
+/*#formmodalregnuevo .ui.form .inline.fields .wide.field:last-child {
+    padding: 0px;
+}*/
+
+#form_nuevaincidencia #fni_cbx_tecnico ~ .menu.transition.visible{
+    height: 136px;
+}
+
