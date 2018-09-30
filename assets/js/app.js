@@ -26,22 +26,44 @@ const appModule = {
       return html;
     }
 
+    var isMobileDevice = false
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        // is Mobile
+        isMobileDevice = true
+    }
 
-    $('.visible.example .ui.sidebar')
+    $('#mainSidebar').sidebar({
+      dimPage: false,
+      closable: false,
+      returnScroll: true,
+      delaySetup: true,
+      duration: 10000,
+      overlay: isMobileDevice
+    })
+
+    if(isMobileDevice){
+      $('#mainSidebar').sidebar('hide')
+    }
+    /* $('#mainSidebar')
       .sidebar({
         context: '.visible.example .bottom.segment'
-      })
-      .sidebar('hide')
+      }) */
+      
+    //.sidebar('hide')
 
+
+    $('#topmenu_useroptions').dropdown()
+
+    $('#btnCollapseMenu').click(() => {
+      console.log('collapsando')
+      $('#mainSidebar').sidebar('toggle')
+    })
 
 
 
 
   },
 
-  addLoader: (elem) => {
-    $(elem).prepend()
-  },
 }
 
 /* document.querySelectorAll('input.mask-numeral').forEach(function(el) {

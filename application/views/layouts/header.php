@@ -26,11 +26,13 @@
 <div id="app">
     <div class="ui bottom attached segment pushable">
 
-        
 
-        <?php
-            $this->load->view('layouts/sidebar.php');
-        ?>
+        <?php $this->load->view('layouts/sidebar.php');?>
 
-        <div class="pusher"  style="width: calc(100% - 260px);">
-            <div id="container">
+        <div class="pusher" >
+            
+            <?php $this->load->view('layouts/topmenu.php'); ?>
+            
+                <div id="container">
+
+                

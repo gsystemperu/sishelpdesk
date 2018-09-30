@@ -2,34 +2,57 @@ body {
     margin: 0 0;
 }
 
+body.pushable {
+    background: #E7E7E7 !important;
+}
+
 #app {
     width: 100%;
     height: 100%;
 }
 
-.ui.image img, .ui.image svg {
-	max-width: 76%;
-	margin: auto;
-	margin-top: 6px;
-	margin-bottom: 9px;
-}
+    .ui.image img, .ui.image svg {
+        max-width: 76%;
+        margin: auto;
+        margin-top: 6px;
+        margin-bottom: 9px;
+    }
+    /* 
+    .ui.vertical.menu .item > i.icon {
+        width: 2.48em;
+        float: left;
+        margin: 0 0 0 .8em;
+        text-align: left;
+    }
 
-.ui.vertical.menu .item > i.icon {
-	width: 2.48em;
-	float: left;
-    margin: 0 0 0 .8em;
-    text-align: left;
-}
+    .ui.sidebar .menu a:first-child {
+        display: none;
+    }
+    .ui.sidebar .menu a {
+        margin-left: 22px;
+    }
+    .ui.sidebar .menu {
+        border-bottom: 1px solid #3C3D3D;
+    }
+ */
 
-.ui.sidebar .menu a:first-child {
+ .ui.sidebar .menu a:first-child {
     display: none;
 }
-.ui.sidebar .menu a {
-    margin-left: 22px;
+
+.ui.sidebar .menu a.item {
+    padding-left: 26px !important;
 }
-.ui.sidebar .menu {
-    border-bottom: 1px solid #3C3D3D;
-}
+ 
+/*@media (min-width: 700px) { */
+    .ui.sidebar.visible ~ .pusher {
+        width: calc(100% - 260px);
+       /*  transition: width 2s; */
+    }
+/*}*/
+ 
+
+
 .pusher {
     background: #e7e7e7 !important;
 }
@@ -57,7 +80,7 @@ button.colprimary:hover {
     border-top: 2px solid #9ED440 !important;
 }
 
-.swal-button {
+/* .swal-button {
     color: rgba(0,0,0,.6);
 }
 .swal-button:focus {
@@ -65,11 +88,22 @@ button.colprimary:hover {
 }
 .swal-button.swal-button--confirm {
     background: #9ED440;
+} */
+
+.swal-icon.swal-icon--warning ~ .swal-footer .swal-button--confirm{
+    background-color: #F67E14;
+}
+.swal-icon.swal-icon--warning ~ .swal-footer .swal-button--confirm:hover{
+    filter: grayscale(15%)
 }
 
 
 .ui.disabled {
     opacity: .75 !important;
+}
+
+.ui.form .inline.fields .wide.field:last-child {
+    padding: 0px;
 }
 
 /* 
@@ -84,5 +118,9 @@ button.colprimary:hover {
 
  */
 
+
+ .ui.fluid.selection.dropdown {
+    width: 100% !important;
+}
 
 

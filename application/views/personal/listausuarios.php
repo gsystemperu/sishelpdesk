@@ -1,30 +1,39 @@
 
 
 <div>
-    
     <div class="ui segments">
         <div class="ui   segment">
-            <p><b>Crear incidencia</b></p>
+            <p><b>Lista de usuarios</b></p>
         </div>
+    
+    <style>
+    .ui.colprimary.segment:not(.inverted) {
+        border-top: 2px solid #249ADB !important;
+    }
+    .button.colprimary, .button.colprimary {
+    background: #249ADB !important; color: white;
+    }
+    .button.colprimary:hover {
+        background: #1678AE  !important; color: white;
+    }
+    </style>
         <div class="ui colprimary  segment">
 
             <div class="ui form">
                 <div class="inline fields">
-                    <label>Fecha</label>
-                    <div class="field">
-                        <input type="date">
+                    <div class="three wide field">
+                            <div class="ui action input">
+                                <input placeholder="Buscar..." type="text">
+                                <button class="ui icon button">
+                                    <i class="search icon"></i>
+                                </button>
+                            </div>
                     </div>
-                    <div class="field">
-                        <button id="regBtnFiltrar" class="ui button">
-                            <i class="search icon"></i>
-                            Filtrar
-                        </button>
-                    </div>
-                    <div class="field">
-                        <button id="regBtnCrear" class="ui colprimary button">
+                    <div class="two wide field">
+                        <a class="ui colprimary fluid button"  href="<?php echo base_url(); ?>categorias/crear">
                             <i class="plus icon"></i>
                             Crear
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -42,14 +51,13 @@
                 <th>Salida</th>
                 <th>Llegada</th>
                 <th>Estado</th>
-                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="8">
+                <th colspan="7">
                     <div class="ui right floated pagination menu" style="font-size: 0.8rem;">
                         <a class="icon item">
                             <i class="left chevron icon"></i>

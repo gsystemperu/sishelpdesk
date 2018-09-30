@@ -79,7 +79,10 @@ class Servicios extends CI_Controller {
                 esNumeroCero($this->input->post('_vestado')),
                 esCadenaNulo($this->input->post('_vusuario')),
                 esCadenaNulo($this->input->post('_vcadena_servicio')),
-                esCadenaNulo($this->input->post('_numficha'))
+                esCadenaNulo($this->input->post('_numficha')),
+                esNumeroCero($this->input->post('_iidurgencia')),
+                esNumeroCero($this->input->post('_iidimpacto')),
+                esNumeroCero($this->input->post('_iidprioridad'))
             ); 
             $data  = json_encode($this->Servicio->hp_datoservicio_insert_update($param));
             $this->output
@@ -281,14 +284,14 @@ class Servicios extends CI_Controller {
                 );
         }
     }
-    public function listadoinsidencias()
-	{
-        if($this->input->method()=='get')
+    public function listadoincidencias()
+	{ //echo "asdfa";die();
+        if($this->input->method()=='post')
         {
             $param = array(
-                esNumeroCero($this->input->get('_idinsidencia')),
-                esCadenaNulo($this->input->get('_fecha'))
-            );
+                esNumeroCero($this->input->post('_idincidencia')),
+                esCadenaNulo($this->input->post('_fecha'))
+            ); //var_dump($param); die();
             $data  = json_encode($this->Servicio->listado_insidencias($param));
             $this->output
                 ->set_content_type('application/json')
@@ -298,6 +301,95 @@ class Servicios extends CI_Controller {
                 );
         }
     }
+
+
+    public function getlistaestado()
+	{ //echo "asdfa";die();
+        if($this->input->method()=='post')
+        {
+            $data  = json_encode($this->Servicio->get_lista_estado());
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    }
+
+    public function getlistaurgencia()
+	{ //echo "asdfa";die();
+        if($this->input->method()=='post')
+        {
+            $data  = json_encode($this->Servicio->get_lista_urgencia());
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    }
+
+    public function getlistaprioridad()
+	{ //echo "asdfa";die();
+        if($this->input->method()=='post')
+        {
+            $data  = json_encode($this->Servicio->get_lista_prioridad());
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    }
+
+    public function getlistaimpacto()
+	{ //echo "asdfa";die();
+        if($this->input->method()=='post')
+        {
+            $data  = json_encode($this->Servicio->get_lista_impacto());
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    }
+
+    public function getlistatiposervicio()
+    {
+        if($this->input->method()=='post')
+        {
+            $data  = json_encode($this->Servicio->get_lista_tiposervicio());
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    }
+
+    public function getlistaservicio() //x
+	{
+        if($this->input->method()=='post')
+        {
+            $param = array(
+                esNumeroCero($this->input->post('_tiposervicio'))
+            );
+            $data  = json_encode($this->Servicio->get_lista_servicio($param));
+            $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(
+                    $data
+                );
+        }
+    } 
+
     public function editarinsidencia()
 	{
         if($this->input->method()=='get')

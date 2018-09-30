@@ -8,6 +8,7 @@ $(document).ready(() => {
 
     $('#regBtnFiltrar').click(() => {
         //UTILS.addLoader('#modal_nuevoservicio')
+        fn_listado_incidencias()
     })
 
     $('#mdBtnCancelarIncidencia').click(() => {
@@ -58,6 +59,51 @@ $(document).ready(() => {
 
 })
 
+const fn_listado_incidencias = () => {
+    return new Promise((resolve, reject) => {
+        var _url = BASE_URL + "/servicios/listadoincidencias"
+        var _data = { cache: Math.random() * 999999,
+            _idincidencia: 0,
+            _fecha: '2018-09-10',
+        }
+        $.ajaxSetup({ async: false })
+        $.post(_url, _data,
+            function (resp) {
+                setTimeout(() => {
+                    let rows = resp.data
+                    console.log(rows)
+                    let buildTR = ''
+                    if(rows.length > 0) {
+                        for (let i = 0; i < rows.length; i++) {
+                            const elem = rows[i];
+                            buildTR += '<tr>'
+                                            +'<td>'+elem._iidinsidencia+'</td>'
+                                            +'<td>'+elem._nombrecliente+'</td>'
+                                            +'<td>'+elem._observaciones+'</td>'
+                                            +'<td>'+elem._nombretec+'</td>'
+                                            +'<td>'+elem._horasalida+'</td>'
+                                            +'<td>'+elem._horallegada+'</td>'
+                                            +'<td><a class="ui teal mini tag label">'+elem._descripestado+'</a></td>'
+                                            +'<td>'
+                                                +'<div class= ui mini buttons">'
+                                                    +'<button class="ui blue button">Editar</button>'
+                                                    +'<button class="ui teal button">Estado</button>'
+                                                +'</div>'
+                                            +'</td>'
+                                        +'</tr>'
+                        }
+                    }
+                    $('#tbl_lista_incidencias tbody').html(buildTR)
+                }, 100);
+            })
+            .fail(function (error) {
+                setTimeout(() => {
+                    reject(error)
+                }, 3000);
+            })
+    })
+}
+
 
 const fn_grabar_incidencia = () => {
     return new Promise((resolve, reject) => {
@@ -71,11 +117,17 @@ const fn_grabar_incidencia = () => {
                 tservicios[0] = this.value + '|'
             }
         }) 
-        if(tservicios.length == 0) { swal('Error mensaje'); return; }
+        if(tservicios.length == 0) { 
+            swal({
+                text: 'Debe seleccionar al menos una categoría',
+                icon: 'warning',
+            })
+            return;
+        }
 
         UTILS.loading('#mdBtnGuardarIncidencia',true)
         UTILS.disable(['#mdBtnGuardarIncidencia','#mdBtnCancelarIncidencia'],true)
-        var _url = BASE_URL + "/servicios/asdfasfdafasf"
+        var _url = BASE_URL + "/servicios/grabardatoservicio"
         var _data = { cache: Math.random() * 999999,
             _iidincidencia: $('#form_nuevaincidencia #fni_idregistro').val(),
             _iidcliente: $('#form_nuevaincidencia #fni_cbx_cliente').val(),
@@ -95,6 +147,9 @@ const fn_grabar_incidencia = () => {
             _vusuario: '',
             _vcadena_servicio: tservicios,
             _numficha: $('#form_nuevaincidencia #fni_txt_numero').val(),
+            _iidurgencia: $('#form_nuevaincidencia #fni_cbx_urgencia').val(),
+            _iidimpacto: $('#form_nuevaincidencia #fni_cbx_impacto').val(),
+            _iidprioridad: $('#form_nuevaincidencia #fni_cbx_prioridad').val(),
         }
         $.ajaxSetup({ async: false })
 
@@ -103,8 +158,22 @@ const fn_grabar_incidencia = () => {
         $.post(_url, _data,
             function (resp) {
                 setTimeout(() => {
-                    console.log(parseInt(resp.data[0].tmpiidficha))
-                    resolve(true)
+                    let code_incid = parseInt(resp.data[0].tmpiidficha)
+                    if(code_incid > 0){
+                        $('#mdBtnCancelarIncidencia').click()
+                        swal({
+                            title: 'Incidencia registrada!',
+                            icon: 'success'
+                        })
+                        resolve(true)
+                    }else {
+                        swal({
+                            text: 'Hubo un error al grabar',
+                            icon: 'error',
+                            dangerMode: true,
+                        })
+                    }
+                    resolve(false)
                 }, 3000);
             })
             .fail(function (error) {
@@ -199,7 +268,7 @@ const getModalRegistrarNuevo = () => {
                 $('#modal_nuevoservicio #formmodalregnuevo').html(resp)
                 $('#modal_nuevoservicio #md_acordion_tiposervicio').accordion()
 
-                cargarTipoServicios()
+                //cargarTipoServicios()
 
                 UTILS.removeLoader('#modal_nuevoservicio')
 
@@ -210,13 +279,19 @@ const getModalRegistrarNuevo = () => {
 
 
                 try { // Cuando cleave no encuentra el elemento, causa error
-                    /* var cleave = new Cleave('.cleave-date', {
-                        date: true,
-                        datePattern: ['Y', 'm', 'd']
-                    });  */
+                    document.querySelectorAll('.cleave-time').forEach(function(el) {
+                        new Cleave(el, {
+                            time: true,
+                            timePattern: ['h', 'm']
+                        })
+                    })
                 }catch { }
 
+                $('#fni_cbx_categoria, #fni_cbx_sub_categoria, #fni_cbx_urgencia, #fni_cbx_impacto, #fni_cbx_estadoincidencia, #fni_cbx_prioridad').dropdown()
+
                 
+
+                //llenarSubCategoria(1)
 
                 var cbx_cliente = $('#fni_cbx_cliente')
                 var cbx_tecnico = $('#fni_cbx_tecnico')
@@ -263,6 +338,20 @@ const getModalRegistrarNuevo = () => {
         }
     )
 }
+
+const llenarSubCategoria = (idtiposervicio) => {
+    return new Promise((resolve,reject) => {
+        var _url = BASE_URL + "/servicios/getlistaservicio"
+        var _data = { cache: Math.random() * 999999,
+                      _tiposervicio: idtiposervicio}
+        $.ajaxSetup({ async: false })
+        $.post(_url, _data,
+            function(resp) {
+                console.log(resp)
+            })
+    })
+}
+
 
 const getModalAgregarcliente = () => {
     $('#modal_agregarcliente').modal('show')

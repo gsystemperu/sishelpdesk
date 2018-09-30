@@ -66,7 +66,7 @@
         </div>
       </a>
     </div>
-    <div class="pusher"  style="width: calc(100% - 260px);">
+    <div class="pusher">  <!-- style="width: calc(100% - 260px);" -->
       <div id="container">
 
 

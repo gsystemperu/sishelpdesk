@@ -55,7 +55,7 @@ class Servicio extends CI_Model
         return $data;
     }
     function listado_insidencias($param){
-        $sql = "SELECT * FROM om_helpdesk.om_listado_insidenias(?,?)";
+        $sql = "SELECT * FROM om_helpdesk.om_fn_listado_incidencias(?,?)";
         $resultado = $this->db->query($sql,$param);
         $data['data'] = $resultado->result();
         return $data;
@@ -85,8 +85,8 @@ class Servicio extends CI_Model
         return $data;
     }
     function hp_datoservicio_insert_update($param){
-        $sql = "SELECT * FROM om_helpdesk.om_hd_servicios_insertar_actualizar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $resultado = $this->db->query($sql,$param); // var_dump($param); die();
+        $sql = "SELECT * FROM om_helpdesk.om_hd_servicios_insertar_actualizar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $resultado = $this->db->query($sql,$param);  //echo($this->db->last_query()); die(); 
         $data['data'] = $resultado->result();
         return $data;
     }
@@ -111,6 +111,45 @@ class Servicio extends CI_Model
     function hp_usuario_insert_update($param){
         $sql = "SELECT * FROM om_helpdesk.om_usuario_insert_update(?,?,?,?,?,?,?,?,?,?)";
         $resultado = $this->db->query($sql,$param);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+    function get_lista_estado(){
+        $sql = "SELECT * FROM om_helpdesk.sp_get_estadoincidencia()";
+        $resultado = $this->db->query($sql);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+    function get_lista_urgencia(){
+        $sql = "SELECT * FROM om_helpdesk.sp_get_urgencia()";
+        $resultado = $this->db->query($sql);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+    function get_lista_prioridad(){
+        $sql = "SELECT * FROM om_helpdesk.sp_get_prioridad()";
+        $resultado = $this->db->query($sql);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+    function get_lista_impacto(){
+        $sql = "SELECT * FROM om_helpdesk.sp_get_impacto()";
+        $resultado = $this->db->query($sql);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+
+
+    function get_lista_tiposervicio(){
+        $sql = "SELECT * FROM om_helpdesk.sp_tiposervicio_lista()";
+        $resultado = $this->db->query($sql);
+        $data['data'] = $resultado->result();
+        return $data;
+    }
+
+    function get_lista_servicio($param){
+        $sql = "SELECT * FROM om_helpdesk.sp_servicio_lista(?)";
+        $resultado = $this->db->query($sql, $param);
         $data['data'] = $resultado->result();
         return $data;
     }

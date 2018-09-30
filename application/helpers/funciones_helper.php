@@ -21,6 +21,18 @@ function esCadenaCero($objeto) {
     return 0;
 }
 
+function esBoolean($objeto) {
+    if (!empty($objeto)) {
+        $val = strtolower($objeto); 
+        if($val == "true" || $val == "1"){
+            return true;
+        }else { 
+            return false;
+        }
+    }
+    return false;
+}
+
 // Funcion de JUAN JAIMES
 function esNumeroNulo($objeto) {
     if (!empty($objeto) && trim($objeto) != "") {

@@ -4,10 +4,17 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Login extends CI_Controller {
 
 
+    
+ function __construct(){
+    parent::__construct();
+    $this->load->model("Loginmodel");
+ }
+
+
 
  function index(){ 
     if(isset($this->session->userdata['logged_in'])){
-        header('Location: '.base_url().'dashboard');
+        header('Location: '.base_url().'registro/registrarnuevo');
     }else{
         $this->load->helper('form');
         $this->load->view('login/acceso');
@@ -15,6 +22,7 @@ class Login extends CI_Controller {
  }
 
 public function user_login_process() { 
+
       //Valida los campos  
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');      
@@ -29,38 +37,29 @@ public function user_login_process() {
             }
         }else{
                 $usuario = htmlentities(addslashes($this->input->post('username')));
-                $password = htmlentities(addslashes($this->input->post('password')));     
-                $objUser = new stdClass;
-                $result['code'] = 403;
-                if($usuario == "alec" && $password == "1234"){ 
-                    $result['code'] = 200;
-                    $objUser->idUser = 12;
-                    $objUser->nombreCompleto = 'Alec Gonzalez';
-                }else if($usuario == "eddy" && $password == "1234"){
-                    $result['code'] = 200;
-                    $objUser->idUser = 15;
-                    $objUser->nombreCompleto = 'Eddy Erazo';
-                } 
-                //$result = $this->login_model->login($usuario, $password);       
+                $password = htmlentities(addslashes($this->input->post('password')));  
                 
-                if ($result['code'] == 200) { //echo "regreso muy bien";    
+                $result = $this->Loginmodel->login($usuario, $password);       
+                if ($result['code'] == 200) { //echo "regreso muy bien";                
+            
                         $session_data = array(
-                                                /* 'nombre_completo' => $result['nombres'] . " " .  $result['apepater'] ,
-                                                'iduser'=> $result['rid'], */
-                                                'id_user'=> $objUser->idUser,
-                                                'nombre_completo' => $objUser->nombreCompleto,
+                                                'nombre_completo' => $result['nombres'] . " " .  $result['apepater'] ,
+                                                'iduser'=> $result['uid'],
                                         );        
                                                                    
                         // Pasa el arreglo a la vista
                         $this->session->set_userdata('logged_in', $session_data);    
                         //header('Location:'.base_url().'home_view.php');
-                        header('Location: '.base_url().'dashboard');                               
+                        header('Location: '.base_url().'registro/registrarnuevo');                                     
                        
     
                 }else{
-
+                    //$data = array('error_message' => $result['message']);
                     $this->load->view('login/acceso');
                 }
+
+
+            
         }
     }
 
